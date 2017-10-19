@@ -7,15 +7,17 @@ module Smartsheet
     # Constructs headers for accessing the Smartsheet API
     class HeaderBuilder
       include Smartsheet::Constants
-      def initialize(token, endpoint_spec, request_spec, assume_user: nil)
+      def initialize(token, endpoint_spec, request_spec, base_headers: {}, assume_user: nil)
         @token = token
         @endpoint_spec = endpoint_spec
         @request_spec = request_spec
+        @custom_base_headers = base_headers
         @assume_user = assume_user
       end
 
       def build
         base_headers
+            .merge(custom_base_headers)
             .merge(endpoint_headers)
             .merge(content_type)
             .merge(content_disposition)
@@ -27,7 +29,7 @@ module Smartsheet
       private
 
       attr_accessor :endpoint_spec, :request_spec
-      attr_reader :token
+      attr_reader :token, :custom_base_headers
 
       def base_headers
         base = {

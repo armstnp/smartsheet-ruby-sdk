@@ -102,7 +102,8 @@ module Smartsheet
         assume_user: nil,
         max_retry_time: nil,
         backoff_method: nil,
-        base_url: API_URL
+        base_url: API_URL,
+        base_headers: {}
     )
 
       request_logger =
@@ -132,6 +133,7 @@ module Smartsheet
           token,
           response_client,
           base_url,
+          base_headers: base_headers,
           assume_user: assume_user,
           logger: request_logger
       )
